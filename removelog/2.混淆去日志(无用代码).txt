@@ -1,0 +1,76 @@
+ 我们在开发时，经常会输出各种日志来debug代码。但是等到应用发布的apk运行时不希望它输出日志。
+    关闭输出日志Log.v(),Log.i(),Log.w(),Log.v(),Log.e()等
+原理：
+    那么我们可以通过proguard导出apk时删除各种日志输出代码。然后，将会过滤掉日志代码。
+    通过配置proguard，将类android.util.Log的方法给置为为无效代码，然后在导出的apk里就是被删除掉日志的。（proguard是一个代码优化的工具，也可以混淆代码）
+=======================
+   3）导出关闭日志的apk
+    proguard，在导出apk的时候才会优化代码，生成优化后的apk。（完成代码混淆也是在导出apk，proguard将代码混淆后生成apk）
+通过如上两个步骤，配置project.properties文件和proguard.properties文件；那么项目就配置好了。可以直接导出签名apk，该apk不会输出日志，我们用LogCat是看不到该apk的日志。
+assumenosideeffects
+    assumenosideeffects，proguard 配置文件里的参数。assume no side effects；假定无效；该属性也就是标识无效代码。我们就是通过这个参数来让proguard删除日志代码。
+   assumenosideeffects的官方解释：
+           In the optimization step, ProGuard will then remove calls to such methods, if it can determine that the return values aren't used.ProGuard will analyze your program code to find such methods automatically.It will not analyze library code, for which this option can therefore be useful.
+           In general, making assumptions can be dangerous; you can easily break the processed code. Only use this option if you know what you're doing!
+    如下：
+      -assumenosideeffects class android.util.Log {
+           public static boolean isLoggable(java.lang.String, int);
+           public static int v(...);
+           public static int i(...);
+           public static int w(...);
+           public static int d(...);
+           public static int e(...);
+       }
+   使用这个配置时，一定要注意-dontoptimize，配置。
+    don‘t optimize 不要优化；将会关闭优化，导致日志语句不会被优化掉。所以不能有这个配置
+====默认情况下关闭优化。=====
+流程：
+1.启用混淆：
+minifyEnabled true
+2.设置 假定无效代码：-assumenosideeffects
+3.假定日志无效 -assumenosideeffects class android.util.Log { *; }
+4.配置优化optimize
+proguard-android-optimize.txt
+
+
+proguard语法
+#为注释
+优化都以"-"为开始
+-keep
+-keepclassmembers
+-keepattributes
+-dontwarn
+-optimizations optimization_filter
+指定要在更细粒度级别启用和禁用的优化。仅适用于优化。这是一个专家选择。
+-optimizationpasses
+指定要执行的优化遍的数量。
+-allowaccessmodification
+指定类和类成员的访问修饰符可以在处理期间加宽。
+-dontusemixedcaseclassnames
+指定在模糊处理时不生成混合大小写的类名。
+-dontskipnonpubliclibraryclasses
+指定不忽略非公用库类。从版本4.5开始，这是默认设置
+-verbose
+指定在处理期间写出一些更多信息。如果程序以异常终止，则此选项将打印整个堆栈跟踪，而不仅仅是异常消息。
+-keepattributes
+指定要保留的任何可选属性。
+-keep
+指定要作为代码入口点保留的类和类成员（字段和方法）。
+-keepclasseswithmembernames
+仅适用于模糊处理
+-dontpreverify
+指定不预处理已处理的类文件。
+-dontwarn
+指定不对未解决的引用和其他重要问题发出警告。
+
+----北财. yq.2017/02/19
+
+
+
+
+
+
+
+
+
+
