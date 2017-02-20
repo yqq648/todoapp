@@ -16,6 +16,11 @@
 #   public *;
 #}
 -assumenosideeffects class android.util.Log { *; }
+#assume no side effects
+#假设    没有  边  影响
 -keep public class **.Man{
     void **Shopping();
 }
+
+#-dontwarn com.squareup.okhttp.**
+#

@@ -1,4 +1,5 @@
- 我们在开发时，经常会输出各种日志来debug代码。但是等到应用发布的apk运行时不希望它输出日志。
+ 我们在开发时，经常会输出各种日志来debug代码。
+ 但是等到应用发布的apk运行时不希望它输出日志。
     关闭输出日志Log.v(),Log.i(),Log.w(),Log.v(),Log.e()等
 原理：
     那么我们可以通过proguard导出apk时删除各种日志输出代码。然后，将会过滤掉日志代码。
@@ -25,7 +26,7 @@ assumenosideeffects
     don‘t optimize 不要优化；将会关闭优化，导致日志语句不会被优化掉。所以不能有这个配置
 ====默认情况下关闭优化。=====
 流程：
-1.启用混淆：
+1.启用混淆:app/build.gradle
 minifyEnabled true
 2.设置 假定无效代码：-assumenosideeffects
 3.假定日志无效 -assumenosideeffects class android.util.Log { *; }
@@ -36,11 +37,11 @@ proguard-android-optimize.txt
 proguard语法
 #为注释
 优化都以"-"为开始
--keep
--keepclassmembers
--keepattributes
--dontwarn
--optimizations optimization_filter
+-keep                keep class
+-keepclassmembers    keep class members
+-keepattributes      keep attributes
+-dontwarn            dont warn
+-optimizations
 指定要在更细粒度级别启用和禁用的优化。仅适用于优化。这是一个专家选择。
 -optimizationpasses
 指定要执行的优化遍的数量。
@@ -63,6 +64,13 @@ proguard语法
 -dontwarn
 指定不对未解决的引用和其他重要问题发出警告。
 
+
+？       代表任意包或字符
+*       任意字符,不包含包/,
+**      任意字符包含包/,
+
+
+混淆-混淆+优化
 ----北财. yq.2017/02/19
 
 

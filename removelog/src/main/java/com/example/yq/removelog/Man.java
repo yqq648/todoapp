@@ -3,7 +3,9 @@ package com.example.yq.removelog;
 /**
  * Created by yq on 2017/2/19.
  */
-
+//-keep public com.example.yq.removelog.Man{
+//  void **goShopping();
+// }
 public class Man {
     void goHome1(){
         int a = 3;
