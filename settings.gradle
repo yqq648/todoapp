@@ -1,1 +1,1 @@
-include ':app', ':mvp_demo', ':removelog'
+include ':app', ':mvp_demo', ':removelog', ':requestpermission'
