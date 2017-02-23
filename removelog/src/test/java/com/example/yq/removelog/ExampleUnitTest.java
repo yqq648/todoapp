@@ -1,6 +1,8 @@
 package com.example.yq.removelog;
 
 import org.junit.Test;
+import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import static org.junit.Assert.*;
 
@@ -12,6 +14,8 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
+//        XmlPullParserFactory.newInstance().newPullParser();
+
         assertEquals(4, 2 + 2);
     }
 }
